@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {prisma} = require('../config/db');
+const { prisma } = require('../config/db');
 
 // Read the token from the request
 // Check if token is valid

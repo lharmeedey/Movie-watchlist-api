@@ -1,0 +1,33 @@
+const { z } = require("zod");
+
+// Validation schema for user registration
+// Validates name, email format, and password strength
+
+const registerSchema = z.object({
+    name: z
+    .string()
+    .trim()
+    .min(2, "Name must be at least 2 characters"),
+    email: z
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Please provide a valid email")
+    .toLowerCase(),
+    password: z 
+    .string()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});
+
+const loginSchema = z.object({
+    email: z 
+    .string()
+    .trim()
+    .min(1, "Email is required")
+    .email("Please provide a valid email")
+    .toLowerCase(),
+    password:z.string().min(1, "Password is required"),
+})
+
+module.exports = { registerSchema, loginSchema };

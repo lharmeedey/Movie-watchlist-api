@@ -1,6 +1,9 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const { connectDB, disconnectDB } = require('./config/db')
+const { notFound, errorHandler } = require('./middleware/errorMiddleware');
+
+
 
 
 // Import Routes
@@ -15,6 +18,7 @@ connectDB();
 const app = express();
 
 
+
 // Body parsing middlewares
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -24,11 +28,17 @@ app.use(express.urlencoded({extended: true}));
 app.use("/auth", authRoutes);
 app.use("/watchlist", watchlistRoutes)
 
+// error checker Middleware
+app.use(notFound);
+app.use(errorHandler);
+
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is runing on PORT ${PORT}`);
 });
+
+
 
 // Handle unhandled promise rejections (e.g database connection errors)
 process.on("unhandledRejection", (err) => {
